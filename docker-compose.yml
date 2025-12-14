@@ -1,0 +1,84 @@
+services:
+  # PostgreSQL Database
+  database:
+    image: postgres:15-alpine
+    container_name: taskmanager-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: taskmanager
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    ports:
+      - "5432:5432"
+    networks:
+      - taskmanager-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d taskmanager"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Spring Boot Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: taskmanager-backend
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/taskmanager
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      JWT_SECRET: mySecretKeyForJWTTokenGenerationThatIsAtLeast256BitsLong123456789
+      JWT_EXPIRATION: 86400000
+    ports:
+      - "8080:8080"
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - taskmanager-network
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8080/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 40s
+
+  # React Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: taskmanager-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - taskmanager-network
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:80 || exit 1"]
+    # Healthy once root responds; nginx serves index.html
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+# Networks
+networks:
+  taskmanager-network:
+    driver: bridge
+    name: taskmanager-network
+
+# Volumes
+volumes:
+  postgres_data:
+    driver: local
+    name: taskmanager-postgres-data

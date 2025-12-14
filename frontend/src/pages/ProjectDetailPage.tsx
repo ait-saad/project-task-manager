@@ -66,6 +66,7 @@ const ProjectDetailPage: React.FC = () => {
       });
       setTasks(tasks.map((t) => (t.id === updated.id ? updated : t)));
       closeModal();
+      loadProjectData();
     } catch (err) {
       setError('Failed to update task');
     }

@@ -1,0 +1,241 @@
+/* Register Page Styles */
+.register-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.register-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 420px;
+  transition: transform 0.3s ease;
+}
+
+.register-card:hover {
+  transform: translateY(-5px);
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.register-header h1 {
+  color: #2d3748;
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+}
+
+.register-header p {
+  color: #718096;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.register-form {
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #2d3748;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-group input.error {
+  border-color: #e53e3e;
+  background-color: #fed7d7;
+}
+
+.form-group input:disabled {
+  background-color: #f7fafc;
+  color: #a0aec0;
+  cursor: not-allowed;
+}
+
+.field-error {
+  display: block;
+  color: #e53e3e;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  font-weight: 500;
+}
+
+.error-message {
+  background: #fed7d7;
+  color: #c53030;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid #feb2b2;
+}
+
+.register-button {
+  width: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 0.875rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.register-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.register-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.register-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.register-footer {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.register-footer p {
+  color: #718096;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.login-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.login-link:hover {
+  color: #5a67d8;
+  text-decoration: underline;
+}
+
+.demo-note {
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.demo-note p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #4a5568;
+}
+
+.demo-note strong {
+  color: #2d3748;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .register-container {
+    padding: 1rem;
+  }
+
+  .register-card {
+    padding: 2rem;
+    margin: 1rem 0;
+  }
+
+  .register-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .form-group input {
+    padding: 0.625rem 0.875rem;
+  }
+
+  .register-button {
+    padding: 0.75rem 1.25rem;
+  }
+}
+
+/* Focus and accessibility improvements */
+.register-button:focus,
+.form-group input:focus,
+.login-link:focus {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+/* Animation for error messages */
+.error-message,
+.field-error {
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

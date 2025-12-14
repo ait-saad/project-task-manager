@@ -5,6 +5,8 @@ import PrivateRoute from './components/PrivateRoute';
 import LoginPage from './pages/LoginPage';
 import ProjectsPage from './pages/ProjectsPage';
 import ProjectDetailPage from './pages/ProjectDetailPage';
+import AllTasksPage from './pages/AllTasksPage';
+import RegisterPage from './pages/RegisterPage';
 import './App.css';
 
 function App() {
@@ -13,6 +15,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
           <Route
             path="/projects"
             element={
@@ -26,6 +29,14 @@ function App() {
             element={
               <PrivateRoute>
                 <ProjectDetailPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/tasks"
+            element={
+              <PrivateRoute>
+                <AllTasksPage />
               </PrivateRoute>
             }
           />

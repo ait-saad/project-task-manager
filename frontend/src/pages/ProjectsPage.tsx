@@ -15,6 +15,10 @@ const ProjectsPage: React.FC = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
+  // Pagination
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(6);
+
   useEffect(() => {
     loadProjects();
   }, []);
@@ -29,6 +33,11 @@ const ProjectsPage: React.FC = () => {
       setLoading(false);
     }
   };
+
+  const totalPages = Math.max(1, Math.ceil(projects.length / pageSize));
+  const pagedProjects = projects.slice((page - 1) * pageSize, page * pageSize);
+  const goPrev = () => setPage((p) => Math.max(1, p - 1));
+  const goNext = () => setPage((p) => Math.min(totalPages, p + 1));
 
   const handleCreateProject = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,8 +72,17 @@ const ProjectsPage: React.FC = () => {
       <header className="header">
         <h1>My Projects</h1>
         <div className="header-right">
-          <span className="user-name">Hello, {user?.name}</span>
-          <button className="logout-button" onClick={logout}>
+          <a className="link-button" href="/tasks">All Tasks</a>
+          <button className="primary-button" onClick={() => setShowModal(true)}>+ New Project</button>
+          <span className="user-name">{user?.name}</span>
+          <button
+            className="logout-button"
+            onClick={() => {
+              logout();
+              // reliable redirect out of the app
+              window.location.href = '/login';
+            }}
+          >
             Logout
           </button>
         </div>
@@ -74,13 +92,23 @@ const ProjectsPage: React.FC = () => {
 
       <div className="projects-header">
         <h2>{projects.length} Project{projects.length !== 1 ? 's' : ''}</h2>
-        <button className="create-button" onClick={() => setShowModal(true)}>
-          + New Project
-        </button>
+        <div className="projects-header-actions">
+          <label>
+            Page size:
+            <select value={pageSize} onChange={(e) => { setPageSize(parseInt(e.target.value) || 6); setPage(1); }}>
+              <option value={6}>6</option>
+              <option value={9}>9</option>
+              <option value={12}>12</option>
+            </select>
+          </label>
+          <button className="create-button" onClick={() => setShowModal(true)}>
+            + New Project
+          </button>
+        </div>
       </div>
 
       <div className="projects-grid">
-        {projects.map((project) => (
+        {pagedProjects.map((project) => (
           <div
             key={project.id}
             className="project-card"
@@ -121,6 +149,12 @@ const ProjectsPage: React.FC = () => {
             <p>No projects yet. Create your first project!</p>
           </div>
         )}
+      </div>
+
+      <div className="pagination">
+        <button disabled={page === 1} onClick={goPrev}>Prev</button>
+        <span>Page {page} of {totalPages}</span>
+        <button disabled={page === totalPages} onClick={goNext}>Next</button>
       </div>
 
       {showModal && (

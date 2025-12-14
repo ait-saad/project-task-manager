@@ -28,6 +28,11 @@ public class Task {
     @Column(name = "due_date")
     private LocalDate dueDate;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TaskStatus status = TaskStatus.NOT_STARTED;
+
+    // Kept for backward compatibility with existing clients; derived from status
     @Column(nullable = false)
     private boolean completed = false;
 
@@ -41,5 +46,7 @@ public class Task {
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
+        // ensure completed aligns with status
+        this.completed = this.status == TaskStatus.DONE;
     }
 }

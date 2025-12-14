@@ -18,5 +18,6 @@ public class TaskResponse {
     private String description;
     private LocalDate dueDate;
     private boolean completed;
+    private String status; // NOT_STARTED | IN_PROGRESS | DONE
     private LocalDateTime createdAt;
 }

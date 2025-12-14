@@ -37,6 +37,15 @@ export const login = async (data: LoginRequest) => {
   const response = await api.post('/auth/login', data);
   return response.data;
 };
+  export const register = async (registerData: {
+    name: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+  }) => {
+    const response = await api.post('/auth/register', registerData);
+    return response.data;
+  };
 
 // Projects
 export const getProjects = async (): Promise<Project[]> => {
@@ -86,4 +95,10 @@ export const toggleTask = async (projectId: number, taskId: number): Promise<Tas
 
 export const deleteTask = async (projectId: number, taskId: number): Promise<void> => {
   await api.delete(`/projects/${projectId}/tasks/${taskId}`);
+};
+
+// All tasks for current user (optional status filter)
+export const getAllTasks = async (status?: 'NOT_STARTED' | 'IN_PROGRESS' | 'DONE'): Promise<Task[]> => {
+  const response = await api.get(`/tasks`, { params: status ? { status } : undefined });
+  return response.data;
 };

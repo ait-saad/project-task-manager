@@ -20,6 +20,7 @@ export interface Task {
   description: string;
   dueDate: string | null;
   completed: boolean;
+  status: 'NOT_STARTED' | 'IN_PROGRESS' | 'DONE';
   createdAt: string;
 }
 
@@ -37,4 +38,5 @@ export interface TaskRequest {
   title: string;
   description: string;
   dueDate: string | null;
+  status?: 'NOT_STARTED' | 'IN_PROGRESS' | 'DONE';
 }

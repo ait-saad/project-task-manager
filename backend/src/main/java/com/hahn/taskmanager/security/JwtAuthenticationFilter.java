@@ -36,21 +36,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        final String jwt = authHeader.substring(7);
-        final String email = jwtUtil.extractEmail(jwt);
+        try {
+            final String jwt = authHeader.substring(7);
+            final String email = jwtUtil.extractEmail(jwt);
 
-        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+            if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
-            if (jwtUtil.validateToken(jwt, userDetails.getUsername())) {
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.getAuthorities()
-                );
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+                if (jwtUtil.validateToken(jwt, userDetails.getUsername())) {
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            userDetails.getAuthorities()
+                    );
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
             }
+        } catch (Exception e) {
+            // Invalid token - clear any auth and continue without authentication
+            SecurityContextHolder.clearContext();
         }
 
         filterChain.doFilter(request, response);

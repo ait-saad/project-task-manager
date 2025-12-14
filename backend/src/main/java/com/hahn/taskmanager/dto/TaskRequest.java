@@ -15,4 +15,7 @@ public class TaskRequest {
     private String description;
 
     private LocalDate dueDate;
+
+    // Optional: allow setting status when creating/updating
+    private String status; // NOT_STARTED | IN_PROGRESS | DONE
 }

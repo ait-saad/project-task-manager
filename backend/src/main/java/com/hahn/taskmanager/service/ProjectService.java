@@ -70,7 +70,10 @@ public class ProjectService {
 
     private ProjectResponse mapToResponse(Project project) {
         long totalTasks = taskRepository.countByProjectId(project.getId());
-        long completedTasks = taskRepository.countByProjectIdAndCompletedTrue(project.getId());
+        // Consider DONE status as completed; fallback to completed flag for backward compatibility
+        long completedByStatus = taskRepository.countByProjectIdAndStatus(project.getId(), com.hahn.taskmanager.entity.TaskStatus.DONE);
+        long completedByFlag = taskRepository.countByProjectIdAndCompletedTrue(project.getId());
+        long completedTasks = Math.max(completedByStatus, completedByFlag);
         double progressPercentage = totalTasks > 0 ? (double) completedTasks / totalTasks * 100 : 0;
 
         return ProjectResponse.builder()
