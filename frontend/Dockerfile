@@ -25,8 +25,8 @@ COPY --from=build /app/build /usr/share/nginx/html
 # Copy custom Nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Ensure running as non-root (nginx image already has nginx user/group)
-USER nginx
+# Create necessary directories
+RUN mkdir -p /var/cache/nginx /var/run/nginx
 
 # Expose port
 EXPOSE 80

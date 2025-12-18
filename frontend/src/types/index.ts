@@ -24,6 +24,11 @@ export interface Task {
   createdAt: string;
 }
 
+export interface TaskWithProject extends Task {
+  projectId: number;
+  projectTitle: string;
+}
+
 export interface LoginRequest {
   email: string;
   password: string;

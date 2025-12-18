@@ -36,20 +36,21 @@ const LoginPage: React.FC = () => {
     <div className="login-container">
       <div className="login-box">
         <h1>Task Manager</h1>
-        <h2>Sign In</h2>
+        <h2>Welcome back! Please sign in to your account</h2>
 
         {error && <div className="error-message">{error}</div>}
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">Email Address</label>
             <input
               type="email"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
+              placeholder="your.email@company.com"
               required
+              disabled={loading}
             />
           </div>
 
@@ -62,21 +63,30 @@ const LoginPage: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
               required
+              disabled={loading}
             />
           </div>
 
           <button type="submit" className="login-button" disabled={loading}>
-            {loading ? 'Signing in...' : 'Sign In'}
+            {loading ? (
+              <>
+                <span className="spinner"></span>
+                Signing in...
+              </>
+            ) : (
+              'Sign In'
+            )}
           </button>
         </form>
 
+        <p>
+          Don't have an account? <Link to="/register">Create account</Link>
+        </p>
+
         <div className="demo-credentials">
-          <p>Demo Credentials:</p>
+          <p>Demo Credentials for Testing:</p>
           <code>john@example.com / password123</code>
         </div>
-        <p>
-    Don't have an account? <Link to="/register">Sign up</Link>
-  </p>
       </div>
     </div>
   );

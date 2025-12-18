@@ -1,0 +1,281 @@
+.task-checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.task-checkbox {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+  overflow: hidden;
+}
+
+.task-checkbox:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.task-checkbox.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Size variants */
+.task-checkbox-container.small .task-checkbox {
+  padding: 2px;
+}
+
+.task-checkbox-container.medium .task-checkbox {
+  padding: 4px;
+}
+
+.task-checkbox-container.large .task-checkbox {
+  padding: 6px;
+}
+
+/* Checkbox background */
+.checkbox-background {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid #d1d5db;
+  background: #ffffff;
+}
+
+.task-checkbox-container.small .checkbox-background {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+}
+
+.task-checkbox-container.medium .checkbox-background {
+  width: 20px;
+  height: 20px;
+}
+
+.task-checkbox-container.large .checkbox-background {
+  width: 24px;
+  height: 24px;
+  border-radius: 5px;
+}
+
+/* Hover states */
+.task-checkbox:hover:not(.disabled) .checkbox-background {
+  border-color: #2563eb;
+  background: #f8fafc;
+}
+
+/* Checked state */
+.task-checkbox.checked .checkbox-background {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  border-color: #2563eb;
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
+}
+
+/* Checkmark */
+.checkbox-checkmark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.task-checkbox.checked .checkbox-checkmark {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Animation for checking */
+.task-checkbox.animating.checked .checkbox-checkmark {
+  animation: checkmarkPop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.task-checkbox.animating.checked .checkbox-background {
+  animation: checkboxFill 0.3s ease;
+}
+
+@keyframes checkmarkPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes checkboxFill {
+  0% {
+    background: #ffffff;
+  }
+  50% {
+    background: #60a5fa;
+    transform: scale(1.05);
+  }
+  100% {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    transform: scale(1);
+  }
+}
+
+/* Ripple effect */
+.ripple-effect {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(37, 99, 235, 0.3);
+  transform: scale(0);
+  pointer-events: none;
+}
+
+.task-checkbox:active:not(.disabled) .ripple-effect {
+  animation: ripple 0.6s linear;
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Label */
+.checkbox-label {
+  font-size: 0.875rem;
+  color: #374151;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  line-height: 1.2;
+}
+
+.checkbox-label.checked {
+  color: #6b7280;
+  text-decoration: line-through;
+  text-decoration-color: #9ca3af;
+  text-decoration-thickness: 2px;
+}
+
+/* Intermediate/loading state */
+.task-checkbox.loading .checkbox-background {
+  border-color: #2563eb;
+  background: #ffffff;
+}
+
+.task-checkbox.loading .checkbox-checkmark {
+  opacity: 0.5;
+  animation: pulse 1s infinite;
+}
+
+/* Error state */
+.task-checkbox.error .checkbox-background {
+  border-color: #ef4444;
+  background: #fef2f2;
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Success state animation */
+.task-checkbox.success {
+  animation: successBounce 0.6s ease;
+}
+
+@keyframes successBounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: scale(1);
+  }
+  40%, 43% {
+    transform: scale(1.1);
+  }
+  70% {
+    transform: scale(1.05);
+  }
+  90% {
+    transform: scale(1.02);
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .checkbox-background {
+    background: #374151;
+    border-color: #6b7280;
+  }
+
+  .task-checkbox:hover:not(.disabled) .checkbox-background {
+    background: #4b5563;
+    border-color: #60a5fa;
+  }
+
+  .checkbox-label {
+    color: #d1d5db;
+  }
+
+  .checkbox-label.checked {
+    color: #9ca3af;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .checkbox-background {
+    border-width: 3px;
+  }
+
+  .task-checkbox.checked .checkbox-background {
+    background: #000000;
+    border-color: #000000;
+  }
+
+  .checkbox-checkmark {
+    color: #ffffff;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .task-checkbox,
+  .checkbox-background,
+  .checkbox-checkmark {
+    transition: none;
+  }
+
+  .task-checkbox.animating.checked .checkbox-checkmark,
+  .task-checkbox.animating.checked .checkbox-background {
+    animation: none;
+  }
+
+  .task-checkbox:active:not(.disabled) .ripple-effect {
+    animation: none;
+  }
+
+  .task-checkbox.loading .checkbox-checkmark {
+    animation: none;
+  }
+
+  .task-checkbox.error .checkbox-background {
+    animation: none;
+  }
+
+  .task-checkbox.success {
+    animation: none;
+  }
+}

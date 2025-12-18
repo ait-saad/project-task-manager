@@ -1,6 +1,6 @@
 package com.hahn.taskmanager.controller;
 
-import com.hahn.taskmanager.dto.TaskResponse;
+import com.hahn.taskmanager.dto.TaskWithProjectResponse;
 import com.hahn.taskmanager.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,8 @@ public class AllTasksController {
     private final TaskService taskService;
 
     @GetMapping
-    public ResponseEntity<List<TaskResponse>> getAllTasksForUser(@RequestParam(required = false) String status) {
-        return ResponseEntity.ok(taskService.getTasksForUser(getCurrentUserId(), status));
+    public ResponseEntity<List<TaskWithProjectResponse>> getAllTasksForUser(@RequestParam(required = false) String status) {
+        return ResponseEntity.ok(taskService.getTasksWithProjectForUser(getCurrentUserId(), status));
     }
 
     private Long getCurrentUserId() {

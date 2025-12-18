@@ -1,0 +1,202 @@
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #f1f5f9 25%,
+    #e2e8f0 50%,
+    #f1f5f9 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite ease-in-out;
+  border-radius: 4px;
+}
+
+.skeleton-text {
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.skeleton-rect {
+  border-radius: 6px;
+}
+
+.skeleton-circle {
+  border-radius: 50%;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Project Card Skeleton */
+.skeleton-project-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.05),
+    0 10px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e0e7ff;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.skeleton-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.skeleton-progress {
+  margin-top: auto;
+}
+
+.skeleton-progress-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+/* Task Item Skeleton */
+.skeleton-task-item {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.06),
+    0 4px 8px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f1f5f9;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.skeleton-task-content {
+  flex: 1;
+}
+
+.skeleton-task-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Loading Grid States */
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 24px;
+  padding: 0 40px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.skeleton-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 40px 40px;
+}
+
+/* Skeleton variations for different themes */
+.skeleton.dark {
+  background: linear-gradient(
+    90deg,
+    #1e293b 25%,
+    #334155 50%,
+    #1e293b 75%
+  );
+}
+
+.skeleton-project-card.dark {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+.skeleton-task-item.dark {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+/* Responsive skeleton adjustments */
+@media (max-width: 768px) {
+  .skeleton-grid {
+    grid-template-columns: 1fr;
+    padding: 0 20px 40px;
+    gap: 16px;
+  }
+
+  .skeleton-list {
+    padding: 0 20px 40px;
+  }
+
+  .skeleton-project-card {
+    padding: 20px;
+  }
+
+  .skeleton-task-item {
+    padding: 20px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .skeleton-task-actions {
+    justify-content: flex-start;
+  }
+}
+
+/* Pulse animation variant */
+.skeleton-pulse {
+  animation: skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes skeleton-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* Wave animation variant */
+.skeleton-wave {
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-wave::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  animation: skeleton-wave 1.6s linear infinite;
+  transform: translateX(-100%);
+}
+
+@keyframes skeleton-wave {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}

@@ -1,0 +1,368 @@
+/* Import animations */
+@import '../styles/animations.css';
+
+.form-input-container {
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.form-input-wrapper {
+  position: relative;
+}
+
+.form-label {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6b7280;
+  font-size: 1rem;
+  font-weight: 500;
+  pointer-events: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #ffffff;
+  padding: 0 0.25rem;
+  z-index: 2;
+}
+
+.form-label.active {
+  top: 0;
+  font-size: 0.875rem;
+  color: #2563eb;
+  transform: translateY(-50%);
+}
+
+.required-asterisk {
+  color: #ef4444;
+  margin-left: 2px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 1rem 3rem 1rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 400;
+  background: #ffffff;
+  color: #1f2937;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+  resize: vertical;
+  min-height: 3.5rem;
+}
+
+.form-textarea {
+  min-height: 5rem;
+  padding-top: 1.25rem;
+  line-height: 1.5;
+  font-family: inherit;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-input.focused,
+.form-textarea.focused {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-input.error,
+.form-textarea.error {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+  animation: shake 0.5s ease-in-out;
+}
+
+.form-input.error.focused,
+.form-textarea.error.focused {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.form-input.success,
+.form-textarea.success {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.form-input.success.focused,
+.form-textarea.success.focused {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.form-input:disabled,
+.form-textarea:disabled {
+  background-color: #f9fafb;
+  color: #9ca3af;
+  cursor: not-allowed;
+  border-color: #e5e7eb;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: transparent;
+  transition: color 0.2s ease;
+}
+
+.form-input.has-value::placeholder,
+.form-textarea.has-value::placeholder,
+.form-input.focused::placeholder,
+.form-textarea.focused::placeholder {
+  color: #9ca3af;
+}
+
+/* Input icons */
+.input-icons {
+  position: absolute;
+  right: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+.input-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.2s ease;
+}
+
+.form-input.error ~ .input-icons .error-icon,
+.form-textarea.error ~ .input-icons .error-icon {
+  opacity: 1;
+  transform: scale(1);
+  color: #ef4444;
+  animation: fadeIn 0.2s ease;
+}
+
+.form-input.success ~ .input-icons .success-icon,
+.form-textarea.success ~ .input-icons .success-icon {
+  opacity: 1;
+  transform: scale(1);
+  color: #10b981;
+  animation: successPop 0.4s ease;
+}
+
+.password-toggle {
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.password-toggle:hover {
+  color: #374151;
+  background-color: #f3f4f6;
+}
+
+.password-toggle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Character count */
+.character-count {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.75rem;
+  font-size: 0.75rem;
+  color: #9ca3af;
+  font-weight: 500;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0.125rem 0.25rem;
+  border-radius: 4px;
+}
+
+.character-count .warning {
+  color: #f59e0b;
+  font-weight: 600;
+}
+
+/* Error message */
+.form-error {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  color: #dc2626;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Hint message */
+.form-hint {
+  margin-top: 0.5rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+/* Floating label adjustments for different input states */
+.form-input.error ~ .form-label.active,
+.form-textarea.error ~ .form-label.active {
+  color: #ef4444;
+}
+
+.form-input.success ~ .form-label.active,
+.form-textarea.success ~ .form-label.active {
+  color: #10b981;
+}
+
+.form-input:disabled ~ .form-label,
+.form-textarea:disabled ~ .form-label {
+  color: #9ca3af;
+}
+
+/* Loading state */
+.form-input.loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.form-input.loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(37, 99, 235, 0.1),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .form-label {
+    background: #1f2937;
+    color: #d1d5db;
+  }
+
+  .form-label.active {
+    color: #60a5fa;
+  }
+
+  .form-input,
+  .form-textarea {
+    background: #1f2937;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+
+  .form-input:focus,
+  .form-textarea:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+  }
+
+  .form-hint {
+    color: #9ca3af;
+  }
+
+  .character-count {
+    background: rgba(31, 41, 55, 0.9);
+    color: #d1d5db;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .form-input,
+  .form-textarea {
+    border-width: 3px;
+  }
+
+  .form-input:focus,
+  .form-textarea:focus {
+    box-shadow: 0 0 0 2px currentColor;
+  }
+
+  .form-error {
+    border-width: 2px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .form-label {
+    transition: none;
+  }
+
+  .form-input,
+  .form-textarea {
+    transition: none;
+  }
+
+  .input-icon {
+    transition: none;
+  }
+
+  .form-input.error,
+  .form-textarea.error {
+    animation: none;
+  }
+
+  .password-toggle {
+    transition: none;
+  }
+}
+
+/* Focus visible for keyboard navigation */
+.form-input:focus-visible,
+.form-textarea:focus-visible,
+.password-toggle:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* Custom scrollbar for textarea */
+.form-textarea::-webkit-scrollbar {
+  width: 6px;
+}
+
+.form-textarea::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.form-textarea::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.form-textarea::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

@@ -68,6 +68,17 @@ public class ProjectService {
         projectRepository.delete(project);
     }
 
+    // Public method for testing - build project response from project entity
+    public ProjectResponse buildProjectResponse(Project project) {
+        return mapToResponse(project);
+    }
+
+    // Public method for testing - get project by ID and user ID
+    public Project getProjectByIdAndUser(long projectId, long userId) {
+        return projectRepository.findByIdAndUserId(projectId, userId)
+                .orElseThrow(() -> new RuntimeException("Project not found"));
+    }
+
     private ProjectResponse mapToResponse(Project project) {
         long totalTasks = taskRepository.countByProjectId(project.getId());
         // Consider DONE status as completed; fallback to completed flag for backward compatibility

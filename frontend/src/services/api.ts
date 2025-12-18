@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { LoginRequest, ProjectRequest, TaskRequest, Project, Task } from '../types';
+import { LoginRequest, ProjectRequest, TaskRequest, Project, Task, TaskWithProject } from '../types';
 
-const API_URL = 'http://localhost:8080/api';
+const API_URL = (process.env.REACT_APP_API_BASE || '/api');
 
 const api = axios.create({
   baseURL: API_URL,
@@ -89,8 +89,20 @@ export const updateTask = async (projectId: number, taskId: number, data: TaskRe
 };
 
 export const toggleTask = async (projectId: number, taskId: number): Promise<Task> => {
-  const response = await api.patch(`/projects/${projectId}/tasks/${taskId}/toggle`);
-  return response.data;
+  try {
+    console.log('API: Toggling task', { projectId, taskId });
+    const response = await api.patch(`/projects/${projectId}/tasks/${taskId}/toggle`);
+    console.log('API: Toggle response', response.data);
+    return response.data;
+  } catch (error: any) {
+    console.error('API: Toggle task failed', {
+      projectId,
+      taskId,
+      error: error.response?.data || error.message,
+      status: error.response?.status
+    });
+    throw error;
+  }
 };
 
 export const deleteTask = async (projectId: number, taskId: number): Promise<void> => {
@@ -98,7 +110,7 @@ export const deleteTask = async (projectId: number, taskId: number): Promise<voi
 };
 
 // All tasks for current user (optional status filter)
-export const getAllTasks = async (status?: 'NOT_STARTED' | 'IN_PROGRESS' | 'DONE'): Promise<Task[]> => {
+export const getAllTasks = async (status?: 'NOT_STARTED' | 'IN_PROGRESS' | 'DONE'): Promise<TaskWithProject[]> => {
   const response = await api.get(`/tasks`, { params: status ? { status } : undefined });
   return response.data;
 };

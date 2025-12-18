@@ -1,0 +1,86 @@
+/* Import shared styles */
+@import './ProjectDetailPage.css';
+
+/* Additional styles specific to AllTasksPage */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.dashboard-btn {
+  padding: 0.75rem 1.25rem;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #475569;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.dashboard-btn:hover {
+  background: #e2e8f0;
+  color: #334155;
+  transform: translateX(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Make task items clickable */
+.task-item.clickable {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.task-item.clickable:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border-color: #3b82f6;
+}
+
+/* Task meta information layout */
+.task-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 8px;
+  font-size: 0.875rem;
+}
+
+.project-name {
+  color: #6366f1;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.due-date {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .header-left {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .task-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .dashboard-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+}

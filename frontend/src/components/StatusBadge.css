@@ -1,0 +1,211 @@
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 12px;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+.status-badge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.status-badge:hover::before {
+  left: 100%;
+}
+
+/* Size variants */
+.status-badge.small {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.625rem;
+  border-radius: 8px;
+}
+
+.status-badge.medium {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+}
+
+.status-badge.large {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  border-radius: 16px;
+}
+
+.status-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.status-text {
+  line-height: 1;
+}
+
+/* Status color variants */
+.status-completed {
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(5, 150, 105, 0.3);
+}
+
+.status-completed:hover {
+  box-shadow: 0 4px 8px rgba(5, 150, 105, 0.4);
+  transform: translateY(-1px);
+}
+
+.status-in-progress {
+  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
+}
+
+.status-in-progress:hover {
+  box-shadow: 0 4px 8px rgba(37, 99, 235, 0.4);
+  transform: translateY(-1px);
+}
+
+.status-not-started {
+  background: linear-gradient(135deg, #64748b 0%, #94a3b8 100%);
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(100, 116, 139, 0.3);
+}
+
+.status-not-started:hover {
+  box-shadow: 0 4px 8px rgba(100, 116, 139, 0.4);
+  transform: translateY(-1px);
+}
+
+.status-overdue {
+  background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(220, 38, 38, 0.3);
+  animation: pulse 2s infinite;
+}
+
+.status-overdue:hover {
+  box-shadow: 0 4px 8px rgba(220, 38, 38, 0.4);
+  transform: translateY(-1px);
+}
+
+.status-on-track {
+  background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(22, 163, 74, 0.3);
+}
+
+.status-on-track:hover {
+  box-shadow: 0 4px 8px rgba(22, 163, 74, 0.4);
+  transform: translateY(-1px);
+}
+
+.status-at-risk {
+  background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(217, 119, 6, 0.3);
+}
+
+.status-at-risk:hover {
+  box-shadow: 0 4px 8px rgba(217, 119, 6, 0.4);
+  transform: translateY(-1px);
+}
+
+.status-unknown {
+  background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(107, 114, 128, 0.3);
+}
+
+.status-unknown:hover {
+  box-shadow: 0 4px 8px rgba(107, 114, 128, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Animated variations */
+.status-badge.animate-appear {
+  animation: statusAppear 0.3s ease-out;
+}
+
+@keyframes statusAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Pulsing animation for important statuses */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .status-badge {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Accessibility improvements */
+.status-badge:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .status-badge {
+    border: 2px solid currentColor;
+  }
+
+  .status-badge::before {
+    display: none;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .status-badge {
+    transition: none;
+  }
+
+  .status-badge::before {
+    transition: none;
+  }
+
+  .status-overdue {
+    animation: none;
+  }
+
+  .status-badge:hover {
+    transform: none;
+  }
+}

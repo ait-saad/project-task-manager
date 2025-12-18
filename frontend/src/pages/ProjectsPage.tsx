@@ -3,6 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getProjects, createProject, deleteProject } from '../services/api';
 import { Project } from '../types';
+import LoadingSpinner from '../components/LoadingSpinner';
+import SkeletonLoader from '../components/SkeletonLoader';
+import { PlusIcon, TrashIcon, LogOutIcon, UserIcon, FolderIcon, GridIcon } from '../components/Icons';
+import StatusBadge from '../components/StatusBadge';
+import ProgressRing from '../components/ProgressRing';
 import './ProjectsPage.css';
 
 const ProjectsPage: React.FC = () => {
@@ -11,6 +16,7 @@ const ProjectsPage: React.FC = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [loading, setLoading] = useState(true);
+  const [creating, setCreating] = useState(false);
   const [error, setError] = useState('');
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -41,6 +47,7 @@ const ProjectsPage: React.FC = () => {
 
   const handleCreateProject = async (e: React.FormEvent) => {
     e.preventDefault();
+    setCreating(true);
     try {
       const newProject = await createProject({ title, description });
       setProjects([...projects, newProject]);
@@ -49,6 +56,8 @@ const ProjectsPage: React.FC = () => {
       setDescription('');
     } catch (err) {
       setError('Failed to create project');
+    } finally {
+      setCreating(false);
     }
   };
 
@@ -64,17 +73,53 @@ const ProjectsPage: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="loading">Loading...</div>;
+    return (
+      <div className="projects-container">
+        <header className="header">
+          <div className="skeleton skeleton-text" style={{ width: '200px', height: '2rem' }} />
+          <div className="header-right">
+            <div className="skeleton skeleton-rect" style={{ width: '80px', height: '2rem', borderRadius: '6px' }} />
+            <div className="skeleton skeleton-rect" style={{ width: '120px', height: '2rem', borderRadius: '8px' }} />
+            <div className="skeleton skeleton-text" style={{ width: '100px', height: '1rem' }} />
+            <div className="skeleton skeleton-rect" style={{ width: '80px', height: '2rem', borderRadius: '8px' }} />
+          </div>
+        </header>
+
+        <div className="projects-header">
+          <div className="skeleton skeleton-text" style={{ width: '150px', height: '1.5rem' }} />
+          <div className="projects-header-actions">
+            <div className="skeleton skeleton-rect" style={{ width: '120px', height: '2rem', borderRadius: '6px' }} />
+            <div className="skeleton skeleton-rect" style={{ width: '140px', height: '2rem', borderRadius: '8px' }} />
+          </div>
+        </div>
+
+        <div className="skeleton-grid">
+          <SkeletonLoader variant="project-card" count={6} />
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className="projects-container">
       <header className="header">
-        <h1>My Projects</h1>
+        <div className="header-left">
+          <FolderIcon size={24} className="header-icon" />
+          <h1>My Projects</h1>
+        </div>
         <div className="header-right">
-          <a className="link-button" href="/tasks">All Tasks</a>
-          <button className="primary-button" onClick={() => setShowModal(true)}>+ New Project</button>
-          <span className="user-name">{user?.name}</span>
+          <a className="link-button" href="/tasks">
+            <GridIcon size={16} />
+            All Tasks
+          </a>
+          <button className="primary-button" onClick={() => setShowModal(true)}>
+            <PlusIcon size={16} />
+            New Project
+          </button>
+          <div className="user-info">
+            <UserIcon size={16} />
+            <span className="user-name">{user?.name}</span>
+          </div>
           <button
             className="logout-button"
             onClick={() => {
@@ -83,6 +128,7 @@ const ProjectsPage: React.FC = () => {
               window.location.href = '/login';
             }}
           >
+            <LogOutIcon size={16} />
             Logout
           </button>
         </div>
@@ -102,16 +148,18 @@ const ProjectsPage: React.FC = () => {
             </select>
           </label>
           <button className="create-button" onClick={() => setShowModal(true)}>
-            + New Project
+            <PlusIcon size={16} />
+            New Project
           </button>
         </div>
       </div>
 
-      <div className="projects-grid">
-        {pagedProjects.map((project) => (
+      <div className="projects-grid stagger-children">
+        {pagedProjects.map((project, index) => (
           <div
             key={project.id}
             className="project-card"
+            style={{ animationDelay: `${index * 0.1}s` }}
             onClick={() => navigate(`/projects/${project.id}`)}
           >
             <div className="project-card-header">
@@ -123,17 +171,42 @@ const ProjectsPage: React.FC = () => {
                   handleDeleteProject(project.id);
                 }}
               >
+                <TrashIcon size={14} />
                 Delete
               </button>
             </div>
             <p className="project-description">
               {project.description || 'No description'}
             </p>
-            <div className="progress-section">
-              <div className="progress-info">
-                <span>{project.completedTasks} / {project.totalTasks} tasks</span>
-                <span>{project.progressPercentage.toFixed(0)}%</span>
+            <div className="project-stats">
+              <div className="task-count">
+                <span className="tasks-completed">{project.completedTasks}</span>
+                <span className="tasks-separator">/</span>
+                <span className="tasks-total">{project.totalTasks}</span>
+                <span className="tasks-label">tasks</span>
               </div>
+              <StatusBadge
+                status={
+                  project.progressPercentage === 100 ? 'completed' :
+                  project.progressPercentage > 0 ? 'in-progress' :
+                  'not-started'
+                }
+                size="small"
+              />
+            </div>
+            <div className="progress-section">
+              <ProgressRing
+                progress={project.progressPercentage}
+                size={60}
+                strokeWidth={6}
+                color={
+                  project.progressPercentage === 100 ? '#10b981' :
+                  project.progressPercentage > 0 ? '#2563eb' :
+                  '#94a3b8'
+                }
+                showPercentage={true}
+                animated={true}
+              />
               <div className="progress-bar">
                 <div
                   className="progress-fill"
@@ -185,8 +258,15 @@ const ProjectsPage: React.FC = () => {
                 <button type="button" onClick={() => setShowModal(false)}>
                   Cancel
                 </button>
-                <button type="submit" className="primary">
-                  Create
+                <button type="submit" className="primary" disabled={creating}>
+                  {creating ? (
+                    <>
+                      <LoadingSpinner size="small" variant="white" />
+                      Creating...
+                    </>
+                  ) : (
+                    'Create'
+                  )}
                 </button>
               </div>
             </form>
