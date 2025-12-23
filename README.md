@@ -21,7 +21,6 @@ A full-stack project management application that allows users to create projects
 
 ### Database
 - **PostgreSQL 15** (production)
-- **H2 Database** (development/testing)
 - **Docker Compose** for containerized deployment
 
 ## 🚀 Quick Start
@@ -58,7 +57,7 @@ docker-compose down -v
 ### Service URLs:
 - **Frontend**: http://localhost:3000
 - **Backend API**: http://localhost:8080
-- **PostgreSQL**: localhost:5432
+- **PostgreSQL**: http://localhost:5432
 
 ## 🗄️ Database Setup
 
@@ -101,24 +100,15 @@ $env:JWT_SECRET="your-secret-key-here"
 cd backend
 ```
 
-2. **Using Maven Wrapper** (recommended):
-```bash
-# Linux/macOS
-./mvnw spring-boot:run
-
-# Windows
-mvnw.cmd spring-boot:run
-```
-
-3. **Using installed Maven**:
+2. **Start the Spring Boot application**:
 ```bash
 mvn spring-boot:run
 ```
 
-4. **Building JAR file**:
+3. **Building JAR file**:
 ```bash
 # Clean and build
-./mvnw clean package
+mvn clean package
 
 # Run the JAR
 java -jar target/taskmanager-0.0.1-SNAPSHOT.jar
@@ -224,16 +214,16 @@ Password: password123
 cd backend
 
 # Run all tests
-./mvnw test
+mvn test
 
 # Run tests with coverage
-./mvnw test jacoco:report
+mvn test jacoco:report
 
 # Run specific test class
-./mvnw test -Dtest=AuthControllerTest
+mvn test -Dtest=AuthControllerTest
 
 # Skip tests during build
-./mvnw clean package -DskipTests
+mvn clean package -DskipTests
 ```
 
 ### Frontend Tests
@@ -247,7 +237,7 @@ npm test
 npm test -- --ci --coverage --watchAll=false
 
 # Run specific test file
-npm test -- AuthService.test.tsx
+npm test -- App.test.tsx
 
 # Update snapshots
 npm test -- --updateSnapshot
