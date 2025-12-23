@@ -412,14 +412,8 @@ docker-compose build --no-cache
 
 ## 🎬 Demo
 
-- **Screenshots**: (Add your screenshots here)
-- **Demo Video**: (Add your video link here)
+- **Demo Video**: https://drive.google.com/drive/folders/11MXae4gF-XhPwNLhdJJUmKAE4DTbma_p?usp=sharing
 
 ## 📝 License
 
 This project is part of Hahn Software Morocco end-of-studies internship technical evaluation.
-
-## 🤝 Contributing
-
-This is a technical assessment project. For questions or feedback, please contact the evaluation team.
-
